@@ -19,6 +19,14 @@ public class OrderState
         ShowingConfigureDialog = true;
     }
 
+    public void ShowEditPizzaDialog(Pizza pizza) 
+    {
+        ConfiguringPizza = pizza;
+        Order.Pizzas.Remove(ConfiguringPizza);
+
+        ShowingConfigureDialog = true;
+    }
+
     public void CancelConfigurePizzaDialog() 
     {
         ConfiguringPizza = null;
@@ -31,6 +39,10 @@ public class OrderState
         Order.Pizzas.Add(ConfiguringPizza);
         ShowingConfigureDialog = false;
         ConfiguringPizza = null;
+    }
 
+    public void RemoveConfiguredPizza(Pizza pizza) 
+    {
+        Order.Pizzas.Remove(pizza);
     }
 }
