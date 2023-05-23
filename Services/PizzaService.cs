@@ -3,7 +3,6 @@ namespace BlazingPizza.Services;
 public class PizzaService 
 {    public async Task<Pizza[]> GetPizzasAsync() 
     {
-        Thread.Sleep(1000);
 
         var specials = new PizzaSpecial[]
         {
