@@ -1,0 +1,73 @@
+@page "/checkout"
+
+@using BlazingPizza.Services
+
+@inject OrderState OrderState
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<div class="top-bar">
+    <a href="" class="logo">
+        <img src="img/logo.svg" />
+    </a>
+
+    <a href="checkout" class="nav-tab active">
+        <img src="img/pizza-slice.svg" />
+        <div>Get Pizza</div>
+    </a>
+</div>
+
+<div class="main">
+    <div class="checkout-cols">
+        <div class="checkout-order-details">
+            <h4>Review Order</h4>
+            @foreach (var pizza in Order.Pizzas)
+            {
+                <p>
+                    <strong>
+                        @(pizza.Size)"
+                        @pizza.Special.Name
+                        ($@pizza.GetFormattedTotalPrice())
+                    </strong>
+                </p>
+            }
+
+            <p>
+                <strong>
+                    Total Price:
+                    $@Order.GetFormattedTotalPrice()
+                </strong>
+            </p>
+        </div>
+    </div>
+
+    <button class="checkout-button btn btn-warning" @onclick="PlaceOrderAsync" disabled=@IsSubmitting>
+        Place Order
+    </button>
+</div>
+
+@code {
+    Order Order => OrderState.Order;
+    bool IsSubmitting = false;
+
+    public async Task PlaceOrderAsync() 
+    {
+        IsSubmitting = true;
+        OrderState.Order.CreatedTime = DateTime.UtcNow;
+        OrderState.Order.UserId = "Tester";
+        OrderState.Order.DeliveryAddress = new Address 
+        {
+            Id = 0,
+            Name = "asdf",
+            Line1 = "asdfasdfasdfasdf",
+            Line2 = string.Empty,
+            City = "Somewhere",
+            Region = "Nowhere",
+            PostalCode = "90210"
+        };
+        var response = await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "orders", OrderState.Order);
+        var newOrderId = await response.Content.ReadFromJsonAsync<int>();
+        OrderState.ResetOrder();
+        NavigationManager.NavigateTo("/");
+    }
+}
