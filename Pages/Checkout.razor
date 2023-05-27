@@ -33,16 +33,6 @@
         IsSubmitting = true;
         OrderState.Order.CreatedTime = DateTime.UtcNow;
         OrderState.Order.UserId = "Tester";
-        OrderState.Order.DeliveryAddress = new Address 
-        {
-            Id = 0,
-            Name = "asdf",
-            Line1 = "asdfasdfasdfasdf",
-            Line2 = string.Empty,
-            City = "Somewhere",
-            Region = "Nowhere",
-            PostalCode = "90210"
-        };
         var response = await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "orders", OrderState.Order);
         var newOrderId = await response.Content.ReadFromJsonAsync<int>();
         OrderState.ResetOrder();

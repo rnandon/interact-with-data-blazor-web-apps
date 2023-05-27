@@ -34,6 +34,7 @@ public class OrdersController : ControllerBase
             .Where(o => o.OrderId == orderId)
             .Include(o => o.Pizzas).ThenInclude(p => p.Special)
             .Include(o => o.Pizzas).ThenInclude(p => p.Toppings).ThenInclude(t => t.Topping)
+            .Include(o => o.DeliveryAddress)
             .SingleOrDefaultAsync();
 
         if (order is null) 
@@ -56,6 +57,12 @@ public class OrdersController : ControllerBase
         {
             pizza.SpecialId = pizza.Special.Id;
             pizza.Special = null;
+        }
+
+        if (order.DeliveryAddress.Id == -1) 
+        {
+            var newId = new Random();
+            order.DeliveryAddress.Id = newId.Next(1, 1000);
         }
 
         _db.Orders.Attach(order);

@@ -34,16 +34,27 @@
             </div>
             <div class="track-order-body">
                 <div class="track-order-details">
-                  @foreach (var pizza in orderWithStatus.Order.Pizzas)
-                  {
-                      <p>
-                          <strong>
-                              @(pizza.Size)"
-                              @pizza.Special.Name
-                              (£@pizza.GetFormattedTotalPrice())
-                          </strong>
-                      </p>
-                  }
+                    @foreach (var pizza in orderWithStatus.Order.Pizzas)
+                    {
+                        <p>
+                            <strong>
+                                @(pizza.Size)"
+                                @pizza.Special.Name
+                                (£@pizza.GetFormattedTotalPrice())
+                            </strong>
+                        </p>
+                    }
+
+                    <p>
+                        <strong>
+                            Name: @orderWithStatus.Order.DeliveryAddress.Name <br />
+                            Line 1: @orderWithStatus.Order.DeliveryAddress.Line1 <br />
+                            Line 2: @orderWithStatus.Order.DeliveryAddress.Line2 <br />
+                            City: @orderWithStatus.Order.DeliveryAddress.City <br />
+                            State: @orderWithStatus.Order.DeliveryAddress.Region <br />
+                            Zip: @orderWithStatus.Order.DeliveryAddress.PostalCode <br />
+                        </strong>
+                    </p>
                 </div>
             </div>
         </div>

@@ -16,5 +16,16 @@ namespace BlazingPizza
         public string Region { get; set; }
 
         public string PostalCode { get; set; }
+
+        public Address()
+        {
+            Id = -1;
+            Name = string.Empty;
+            Line1 = string.Empty;
+            Line2 = string.Empty;
+            City = string.Empty;
+            Region = string.Empty;
+            PostalCode = string.Empty;
+        }
     }
 }
